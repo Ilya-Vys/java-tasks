@@ -7,8 +7,6 @@ import com.example.lec04.exception.PetAlreadyExistException;
 
 import java.util.*;
 
-import static java.util.Comparator.*;
-
 public class PetBase {
 
     Set<Pet> pets;

@@ -5,6 +5,8 @@ import com.example.lec04.entities.Pet;
 import com.example.lec04.entities.Sex;
 import com.example.lec04.exception.PetAlreadyExistException;
 
+import java.util.*;
+
 public class Test {
 
 
@@ -25,5 +27,14 @@ public class Test {
         pet.setName("Kittykat");
         base.updatePet(pet);
         System.out.println(base.findByName("Kittykat"));
+        LinkedHashMap<Integer, String> map = new LinkedHashMap<>();
+        map.put(5, "a");
+        map.put(4, "b");
+        map.put(3, "c");
+        map.put(2, "d");
+        map.put(1, "e");
+        System.out.println(map);
+
     }
+
 }
