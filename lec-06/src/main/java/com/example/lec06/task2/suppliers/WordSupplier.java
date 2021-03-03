@@ -10,11 +10,7 @@ public class WordSupplier extends AbstractSupplier<String> {
     private final int maxLength;
     private final char[] alphabet;
 
-    public WordSupplier() {
-        this(15);
-    }
-
-    private WordSupplier(int maxLength) {
+    public WordSupplier(int maxLength) {
         this.maxLength = maxLength;
         this.alphabet = ("abcdefghijklmnopqrstuvwxyz").toCharArray();
     }

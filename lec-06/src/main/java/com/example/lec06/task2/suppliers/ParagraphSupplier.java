@@ -12,11 +12,7 @@ public class ParagraphSupplier extends AbstractSupplier<String> {
     private final int maxLength;
     private final SentenceSupplier supplier;
 
-    public ParagraphSupplier() {
-        this(19, new SentenceSupplier());
-    }
-
-    private ParagraphSupplier(int maxLength, SentenceSupplier supplier) {
+    public ParagraphSupplier(int maxLength, SentenceSupplier supplier) {
         this.maxLength = maxLength;
         this.supplier = supplier;
     }

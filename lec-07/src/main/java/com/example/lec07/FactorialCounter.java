@@ -17,12 +17,12 @@ public class FactorialCounter implements Callable<BigInteger> {
     }
 
     @Override
-    public BigInteger call() throws Exception {
+    public BigInteger call() {
         return countFactorial(start, end);
     }
 
     private BigInteger countFactorial(int start, int end) {
-         System.out.println(Thread.currentThread().getName() +" started and counting factorial from " + start + " to "+ end);
+        System.out.println(Thread.currentThread().getName() + " started and counting factorial from " + start + " to " + end);
         if (start == end || start == end - 1) return BigInteger.valueOf(end);
         return IntStream.rangeClosed(start, end)
                 .parallel()

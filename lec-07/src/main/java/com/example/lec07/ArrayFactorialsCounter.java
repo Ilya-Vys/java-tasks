@@ -3,7 +3,6 @@ package com.example.lec07;
 import java.math.BigInteger;
 import org.apache.commons.lang3.ArrayUtils;
 import java.util.Arrays;
-import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;

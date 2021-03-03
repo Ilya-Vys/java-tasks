@@ -10,11 +10,7 @@ public class SentenceSupplier extends AbstractSupplier<List<String>> {
     private final int maxLength;
     private final WordSupplier supplier;
 
-    public SentenceSupplier() {
-        this(14, new WordSupplier());
-    }
-
-    private SentenceSupplier(int maxLength, WordSupplier supplier) {
+    public SentenceSupplier(int maxLength, WordSupplier supplier) {
         this.maxLength = maxLength;
         this.supplier = supplier;
     }
