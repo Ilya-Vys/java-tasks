@@ -54,8 +54,7 @@ public class ArrayFactorialsCounter {
 
     private class ArrayDivider extends RecursiveTask<BigInteger[]>{
 
-        private BigInteger[] integers;
-        private int[] array;
+        private final int[] array;
         private int floor;
 
         public ArrayDivider(int[] array, int floor) {
@@ -66,6 +65,7 @@ public class ArrayFactorialsCounter {
         @Override
         protected BigInteger[] compute() {
             int arrLength = array.length;
+            BigInteger[] integers;
             if(arrLength == 1){
                 System.out.println(Thread.currentThread().getName() + " ArrayDivider started and gave to FactorialCounters " +
                         "pool from " + floor + " to " + array[0]);
@@ -74,7 +74,7 @@ public class ArrayFactorialsCounter {
             }else {
                 ArrayDivider[] dividers = new ArrayDivider[arrLength];
                 integers = new BigInteger[arrLength];
-                int floor = 1;
+                floor = 1;
                 for (int i = 0; i < array.length; i++) {
                     dividers[i] = new ArrayDivider(new int[]{array[i]}, floor);
                     floor = array[i];
