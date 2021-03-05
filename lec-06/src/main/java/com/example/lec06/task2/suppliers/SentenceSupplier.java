@@ -19,32 +19,31 @@ public class SentenceSupplier extends AbstractSupplier<List<String>> {
     public List<String> get() {
         List<String> list = getWords();
         list.set(0, makeFirstWord(list.get(0)));
-        injectCommas(list);
         list.set(list.size() - 1 , injectLastPunctuation(list.get(list.size() - 1)));
         return list;
     }
 
     private List<String> getWords(){
-        return supplier.
-                getStream( RandomNumberSupplier.getNumber(maxLength) +1).
-                collect(Collectors.toList());
+        return supplier.getStream( RandomNumberSupplier.getNumber(maxLength) +1)
+                .map(String::toLowerCase)
+                .map(this::injectCommas)
+                .collect(Collectors.toList());
     }
 
     private String makeFirstWord(String word){
         return word.substring(0,1).toUpperCase() + word.substring(1);
     }
 
-    private List<String> injectCommas(List<String> list){
-        for (int i = 0; i < list.size() - 1; i++) {
-            if (RandomNumberSupplier.getNumber(4) == 0)
-                list.set(i, list.get(i) + ",");
-        }
-        return list;
+    private String injectCommas(String word){
+        if (RandomNumberSupplier.getNumber(4) == 0)
+                word += ",";
+        return word;
     }
 
     private String injectLastPunctuation(String word){
+        char[] chars = new char[]{'!', '?', '.'};
         int random = RandomNumberSupplier.getNumber(3);
-       return word + (random == 0 ? "!" : random == 1 ? "?" : ".");
+        return word.replaceAll(",", "") + chars[random];
     }
 
 

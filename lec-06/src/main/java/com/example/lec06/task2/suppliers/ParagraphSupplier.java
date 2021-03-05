@@ -24,10 +24,9 @@ public class ParagraphSupplier extends AbstractSupplier<String> {
     }
 
     private List<String> combineAllLists() {
-        return supplier.
-                getStream(RandomNumberSupplier.getNumber(maxLength) + 1).
-                flatMap(Collection::stream).
-                collect(Collectors.toList());
+        return supplier.getStream(RandomNumberSupplier.getNumber(maxLength) + 1)
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
     }
 
     private String joinStrings(List<String> list) {
