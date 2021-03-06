@@ -11,7 +11,7 @@ public class Test {
         String destination = "sourcetext1.txt";
         TextSorter sorter = new TextSorter();
         List<String > readText = sorter.getText(source);
-        List<String > sortedText = sorter.sortText(readText);
+        List<String > sortedText = sorter.sortTextToWordsAndSort(readText);
         sorter.writeText(sortedText, destination);
 
     }

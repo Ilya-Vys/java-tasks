@@ -35,15 +35,16 @@ public class SentenceSupplier extends AbstractSupplier<List<String>> {
     }
 
     private String injectCommas(String word){
-        if (RandomNumberSupplier.getNumber(4) == 0)
-                word += ",";
+        if (RandomNumberSupplier.getNumber(4) == 0){
+            word += ",";
+        }
         return word;
     }
 
     private String injectLastPunctuation(String word){
         char[] chars = new char[]{'!', '?', '.'};
         int random = RandomNumberSupplier.getNumber(3);
-        return word.replaceAll(",", "") + chars[random];
+        return word.replace(",", "") + chars[random];
     }
 
 
