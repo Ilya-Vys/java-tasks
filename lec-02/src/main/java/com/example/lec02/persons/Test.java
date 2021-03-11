@@ -5,6 +5,8 @@ import com.example.lec02.persons.comparators.PersonComparatorByAllFields;
 import com.example.lec02.persons.comparators.PersonComparatorByName;
 import com.example.lec02.persons.comparators.PersonComparatorBySex;
 import com.example.lec02.persons.dataGenerator.DataGenerator;
+import com.example.lec02.persons.entities.Person;
+import com.example.lec02.persons.entities.Sex;
 import com.example.lec02.persons.exceptions.DuplicateException;
 
 
