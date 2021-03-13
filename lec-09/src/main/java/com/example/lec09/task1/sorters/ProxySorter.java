@@ -23,7 +23,7 @@ public class ProxySorter implements InvocationHandler {
         long time = System.currentTimeMillis();
         Object object = method.invoke(sorter,args);
         timeResult = System.currentTimeMillis() - time;
-        writeText(method);
+        writeLog(method);
         return object;
     }
 
@@ -31,7 +31,7 @@ public class ProxySorter implements InvocationHandler {
         return timeResult;
     }
 
-    private void writeText(Method method) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    private void writeLog(Method method) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         Class<? extends CollectionSorter> aClass = sorter.getClass();
         Method method1 = aClass.getMethod("getList");
         List<?> list = (List<?>) method1.invoke(sorter);
