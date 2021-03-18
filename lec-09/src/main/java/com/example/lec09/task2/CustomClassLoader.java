@@ -1,28 +1,39 @@
 package com.example.lec09.task2;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
 
 public class CustomClassLoader extends ClassLoader{
 
-    private final String path;
-
-    CustomClassLoader(String path) {
-        this.path = path;
-    }
-
     @Override
-    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+    public Class findClass(String name) throws ClassNotFoundException {
+        byte[] b = new byte[0];
         try {
-            byte[] bytes = Files.readAllBytes(Paths.get(path));
-            return defineClass("com.example.lec09.task2.SomeClass", bytes, 0 , bytes.length);
-            //  return defineClass(name, bytes, 0 , bytes.length);
-
+            b = loadClassFromFile(name);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new ClassNotFoundException(e.getMessage(), e);
         }
+        return defineClass(name, b, 0, b.length);
+    }
+
+    private byte[] loadClassFromFile(String fileName) throws IOException {
+        System.out.println(getClass().getClassLoader().getName());
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(
+                fileName.replace('.', File.separatorChar) + ".class");
+        byte[] buffer;
+        ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+        int nextValue = 0;
+        try {
+            while ( (nextValue = inputStream.read()) != -1 ) {
+                byteStream.write(nextValue);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        buffer = byteStream.toByteArray();
+        return buffer;
     }
 
 }

@@ -22,8 +22,8 @@ public class ClassBuilder {
     public Worker buildInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         createJavaFile();
         compileJavaFile();
-        return (Worker)new CustomClassLoader(String.format("%s%s.class", path, className))
-                .loadClass(className, false).newInstance();
+        return (Worker) new CustomClassLoader()
+                .findClass("com.example.lec09.task2.SomeClass").newInstance();
     }
 
     private void createJavaFile() {
