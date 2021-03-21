@@ -1,16 +1,15 @@
 package com.example.lec10.client;
 
 import java.io.*;
-import java.net.Socket;
+import java.net.*;
 
-
-public class Client3 {
+public class Client {
     private final Socket socket;
     private final DataOutputStream dataOutput;
     private final DataInputStream dataInput;
 
 
-    private Client3() throws IOException {
+    private Client() throws IOException {
         this.socket = new Socket("127.0.0.1", 8000);
         this.dataOutput = new DataOutputStream(socket.getOutputStream());
         this.dataInput = new DataInputStream(socket.getInputStream());
@@ -30,7 +29,7 @@ public class Client3 {
     }
 
     public static void main(String[] arg) throws IOException {
-        new Client3().startChatting();
+        new Client().startChatting();
     }
 
     private void startChatting() {

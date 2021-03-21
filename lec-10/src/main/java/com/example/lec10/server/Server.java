@@ -8,15 +8,13 @@ import java.util.*;
 
 public class Server {
 
-    static Map<Socket, String> clients = new HashMap<>();
+    private static final Map<Socket, String> clients = new HashMap<>();
 
-
-
-    Server() throws IOException {
+    private Server() throws IOException {
         ServerSocket server = new ServerSocket(8000);
         while (true) {
             Socket client = server.accept();
-            new AcceptClient(client);
+            new ClientListener(client);
         }
     }
 
@@ -24,52 +22,39 @@ public class Server {
         new Server();
     }
 
-    static class AcceptClient extends Thread {
-        Socket clientSocket;
+    static class ClientListener extends Thread {
+        Socket client;
         DataInputStream in;
-       // DataOutputStream out;
+        DataOutputStream out;
 
-        AcceptClient(Socket client) throws IOException {
-            clientSocket = client;
-            in = new DataInputStream(clientSocket.getInputStream());
-          //  out = new DataOutputStream(clientSocket.getOutputStream());
+        ClientListener(Socket client) throws IOException {
+            this.client = client;
+            in = new DataInputStream(this.client.getInputStream());
             start();
         }
 
-
-
-        private void broadcastToAll(String message) throws IOException {
-            System.out.println(message);
-            DataOutputStream out;
-            for (Map.Entry<Socket, String> entry : clients.entrySet()) {
-                if(!entry.getKey().equals(clientSocket)){
-                    out = new DataOutputStream(entry.getKey().getOutputStream());
-                    out.writeUTF(message);
-                    out.flush();
-                }
-            }
-        }
-
         public void run() {
-
             try {
-                String name = "";
+
                 while (true) {
                     String msgFromClient = in.readUTF();
-                    if(!clients.containsKey(clientSocket)){
-                        clients.put(clientSocket, msgFromClient);
-                        name = clients.get(clientSocket);
-                        String greeting = name + " join chat!";
-                        broadcastToAll(greeting);
+                    if (checkIsMessagePrivate(msgFromClient)){
+                        System.out.println(String.format("private message from %s %s",clients.get(client), msgFromClient));
+                        handlePrivateMessage(msgFromClient);
+                        return;
+                    }
+                    if(!clients.containsKey(client)){
+                        clients.put(client, msgFromClient);
+                        broadcastToAll(msgFromClient + " join chat");
                     }else {
-                        broadcastToAll(name + ": " + msgFromClient);
+                        broadcastToAll(clients.get(client) + ": " + msgFromClient);
                     }
                 }
 
             } catch (IOException e) {
-                String leave = String.format("%s left chat", clients.get(clientSocket));
+                String leave = String.format("%s left chat", clients.get(client));
                 try {
-                    clients.remove(clientSocket);
+                    clients.remove(client);
                     broadcastToAll(leave);
                 } catch (IOException ioException) {
                     ioException.printStackTrace();
@@ -78,6 +63,44 @@ public class Server {
 
         }
 
+        private boolean checkIsMessagePrivate(String message){
+            return message.matches("to (?i)[\\p{L}']+:.*");
+        }
+
+        private void broadcastToAll(String message) throws IOException {
+            System.out.println(message);
+            clients.entrySet().stream()
+                    .filter(socketStringEntry -> !socketStringEntry.getKey().equals(client))
+                    .forEach(e -> {
+                        try {
+                            sendMessage(e.getKey(), message);
+                        } catch (IOException ioException) {
+                            ioException.printStackTrace();
+                        }
+                    });
+        }
+
+        private void handlePrivateMessage(String message) throws IOException {
+            String[] strings = message.split(":");
+            String recipient = strings[0].substring(3);
+            strings[0] = "";
+            String msg = String.join(":", strings);
+            Optional<Socket> socket = clients.entrySet().stream()
+                    .filter(entry -> Objects.equals(entry.getValue(), recipient))
+                    .map(Map.Entry::getKey)
+                    .findAny();
+            if(socket.isEmpty()){
+                sendMessage(client, "Wrong name " + recipient);
+            }else {
+                sendMessage(socket.get(), String.format("Message from %s %s", clients.get(client), msg));
+            }
+        }
+
+        private void sendMessage(Socket socket, String message) throws IOException {
+            out = new DataOutputStream(socket.getOutputStream());
+            out.writeUTF(message);
+            out.flush();
+        }
     }
 
 }
