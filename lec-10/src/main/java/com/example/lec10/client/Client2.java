@@ -44,6 +44,7 @@ public class Client2{
     }
 
     private void assignName(BufferedReader reader) throws IOException {
+        System.out.println("To send private message write: to name: message");
         System.out.print("Enter you name: ");
         dataOutput.writeUTF(reader.readLine());
     }
