@@ -26,7 +26,7 @@ public class Server {
 
     }
 
-    private static class ClientListener extends Thread {
+    private static class ClientListener implements Runnable {
         private final Socket client;
         private final DataInputStream in;
         private DataOutputStream out;
@@ -35,7 +35,7 @@ public class Server {
         ClientListener(Socket client) throws IOException {
             this.client = client;
             this.in = new DataInputStream(this.client.getInputStream());
-            start();
+            run();
         }
 
         public void run() {
