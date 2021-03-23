@@ -10,8 +10,11 @@ public class Server {
 
     private static final Map<Socket, String> clients = new HashMap<>();
 
+
+
     private Server() throws IOException {
         ServerSocket server = new ServerSocket(8000);
+        System.out.println("Server is running!");
         while (true) {
             Socket client = server.accept();
             new ClientListener(client);
@@ -20,39 +23,37 @@ public class Server {
 
     public static void main(String[] args) throws IOException {
         new Server();
+
     }
 
-    static class ClientListener extends Thread {
-        Socket client;
-        DataInputStream in;
-        DataOutputStream out;
+    private static class ClientListener extends Thread {
+        private final Socket client;
+        private final DataInputStream in;
+        private DataOutputStream out;
+        private String name;
 
         ClientListener(Socket client) throws IOException {
             this.client = client;
-            in = new DataInputStream(this.client.getInputStream());
+            this.in = new DataInputStream(this.client.getInputStream());
             start();
         }
 
         public void run() {
             try {
-
                 while (true) {
                     String msgFromClient = in.readUTF();
-                    if (checkIsMessagePrivate(msgFromClient)){
-                        System.out.println(String.format("private message from %s %s",clients.get(client), msgFromClient));
-                        handlePrivateMessage(msgFromClient);
-                        return;
-                    }
                     if(!clients.containsKey(client)){
                         clients.put(client, msgFromClient);
                         broadcastToAll(msgFromClient + " join chat");
                     }else {
-                        broadcastToAll(clients.get(client) + ": " + msgFromClient);
+                        name = clients.get(client);
+                        handleMessage(msgFromClient);
                     }
                 }
 
             } catch (IOException e) {
-                String leave = String.format("%s left chat", clients.get(client));
+                String duplicate = name;
+                String leave = String.format("%s left chat", duplicate);
                 try {
                     clients.remove(client);
                     broadcastToAll(leave);
@@ -61,6 +62,15 @@ public class Server {
                 }
             }
 
+        }
+
+        private void handleMessage(String message) throws IOException {
+            if (checkIsMessagePrivate(message)){
+                System.out.println(String.format("private message from %s %s",name, message));
+                handlePrivateMessage(message);
+            }else {
+                broadcastToAll(name + ": " + message);
+            }
         }
 
         private boolean checkIsMessagePrivate(String message){
@@ -92,7 +102,7 @@ public class Server {
             if(socket.isEmpty()){
                 sendMessage(client, "Wrong name " + recipient);
             }else {
-                sendMessage(socket.get(), String.format("Message from %s %s", clients.get(client), msg));
+                sendMessage(socket.get(), String.format("Message from %s %s", name, msg));
             }
         }
 

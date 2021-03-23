@@ -36,6 +36,8 @@ public class Client2{
 
     private void startChatting() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+            System.out.println("Welcome to chat!");
+            System.out.println("To send private message write: to name: message");
             assignName(reader);
             sendMessage(reader);
         } catch (Exception e) {
@@ -44,7 +46,6 @@ public class Client2{
     }
 
     private void assignName(BufferedReader reader) throws IOException {
-        System.out.println("To send private message write: to name: message");
         System.out.print("Enter you name: ");
         dataOutput.writeUTF(reader.readLine());
     }
