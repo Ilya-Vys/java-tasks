@@ -3,7 +3,7 @@ package com.example.lec09.task1.sorters;
 import java.util.Collections;
 import java.util.List;
 
-public class CollectionSorterImpl<T extends Comparable> implements CollectionSorter {
+public class CollectionSorterImpl<T extends Comparable<T>> implements CollectionSorter {
 
     private List<T> list;
 

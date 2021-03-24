@@ -2,7 +2,7 @@ package com.example.lec09.task1.suppliers;
 
 import java.util.function.Supplier;
 
-public abstract class AbstractSupplier<T> implements Supplier<T> {
+public abstract class AbstractSupplier<U> implements Supplier<U> {
 
     private int count;
 

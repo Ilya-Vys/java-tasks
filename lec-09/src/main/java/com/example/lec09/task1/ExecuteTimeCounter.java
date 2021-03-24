@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ExecuteTimeCounter {
+public class ExecuteTimeCounter<T extends Comparable<T>>{
 
-    private final CollectionSorterImpl sorter;
+    private final CollectionSorterImpl<T> sorter;
     private ProxySorter proxy;
-    private final AbstractSupplier supplier;
+    private final AbstractSupplier<List<T>> supplier;
 
-    public ExecuteTimeCounter(AbstractSupplier supplier) {
+    public ExecuteTimeCounter(AbstractSupplier<List<T>> supplier) {
         this.sorter = new CollectionSorterImpl<>();
         this.proxy = new ProxySorter(sorter);
         this.supplier = supplier;
@@ -37,10 +37,10 @@ public class ExecuteTimeCounter {
         List<Long> sortedList = new ArrayList<>();
         List<Long> bubbleSortedList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
-            sorter.setList((List) supplier.get());
+            sorter.setList(supplier.get());
             proxySorter.sort();
             sortedList.add(proxy.getTimeResult());
-            sorter.setList((List) supplier.get());
+            sorter.setList(supplier.get());
             proxySorter.bubbleSort();
             bubbleSortedList.add(proxy.getTimeResult());
         }
