@@ -7,6 +7,12 @@ import java.nio.file.Paths;
 
 public class CustomClassLoader extends ClassLoader{
 
+    private final String packagePath;
+
+    public CustomClassLoader(String packagePath) {
+        this.packagePath = packagePath;
+    }
+
     @Override
     public Class findClass(String name) throws ClassNotFoundException {
         byte[] b = new byte[0];
@@ -15,8 +21,7 @@ public class CustomClassLoader extends ClassLoader{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        name = String.join(".", "com/example/lec09/task2/SomeClass".split("/"));
-        return this.defineClass(name, b, 0, b.length);
+        return this.defineClass(packagePath, b, 0, b.length);
     }
 
     private byte[] loadClassFromFile(String fileName) throws IOException {

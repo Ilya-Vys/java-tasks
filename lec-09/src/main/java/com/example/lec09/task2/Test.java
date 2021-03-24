@@ -19,7 +19,7 @@ public class Test {
         ClassBuilder classBuilder = new ClassBuilder(
                 "lec-09/src/main/java/com/example/lec09/task2/"
                 , className
-        , newClassCode);
+        , inputCode);
         classBuilder.buildInstance().doWork();
     }
 

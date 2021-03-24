@@ -1,7 +1,5 @@
 package com.example.lec09.task1.sorters;
 
-
-
 import java.util.Collections;
 import java.util.List;
 

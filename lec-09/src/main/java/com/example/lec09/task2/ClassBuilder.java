@@ -22,7 +22,7 @@ public class ClassBuilder {
     public Worker buildInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
         createJavaFile();
         compileJavaFile();
-        return (Worker) new CustomClassLoader()
+        return (Worker) new CustomClassLoader(getCorrectNameToClassloader())
                 .findClass(path + className).newInstance();
     }
 

@@ -49,7 +49,8 @@ public class ExecuteTimeCounter {
     }
 
     private long getResult(List<Long> longs){
-        return longs.stream().reduce((aLong, aLong2) -> (aLong + aLong2) / 2).get();
+        int size = longs.size();
+        return longs.stream().reduce(Long::sum).get() / size;
     }
 
     private void print(long sortResult, long bubbleSortResult, int count){

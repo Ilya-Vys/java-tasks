@@ -36,7 +36,7 @@ public class Client {
     private void startChatting() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
             System.out.println("Welcome to chat!");
-            System.out.println("To send private message write: to name: message");
+            System.out.println("To send private message write: @name message");
             assignName(reader);
             sendMessage(reader);
         } catch (Exception e) {
