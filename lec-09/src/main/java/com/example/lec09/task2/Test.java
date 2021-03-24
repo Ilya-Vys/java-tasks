@@ -14,8 +14,8 @@ public class Test {
                 "lec-09/src/main/java/com/example/lec09/task2/Worker.java"
                 , className);
         List<String> newClassCode = builder.getNewClassCode();
+        newClassCode.forEach(System.out::println);
         List<String> inputCode = InputReader.readInput();
-        System.out.println(newClassCode.equals(inputCode));
         ClassBuilder classBuilder = new ClassBuilder(
                 "lec-09/src/main/java/com/example/lec09/task2/"
                 , className

@@ -2,7 +2,7 @@ package com.example.lec10.client;
 
 import java.io.*;
 import java.net.*;
-import java.sql.SQLOutput;
+
 
 public class Client {
     private final Socket socket;

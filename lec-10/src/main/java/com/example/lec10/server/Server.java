@@ -5,19 +5,23 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 public class Server {
 
-    private static final Map<Socket, String> clients = new HashMap<>();
-
-
+    private final Map<Socket, String> clients = new ConcurrentHashMap<>();
+    private final ExecutorService threadPool = Executors.newFixedThreadPool(4);
 
     private Server() throws IOException {
         ServerSocket server = new ServerSocket(8000);
         System.out.println("Server is running!");
         while (true) {
             Socket client = server.accept();
-            new ClientListener(client);
+            threadPool.submit(new ClientListener(client));
+
         }
     }
 
@@ -26,7 +30,7 @@ public class Server {
 
     }
 
-    private static class ClientListener implements Runnable {
+    private class ClientListener implements Runnable {
         private final Socket client;
         private final DataInputStream in;
         private DataOutputStream out;

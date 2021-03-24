@@ -19,11 +19,11 @@ public class ClassBuilder {
         this.code = code;
     }
 
-    public Worker buildInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+    public Worker buildInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException, IOException {
         createJavaFile();
         compileJavaFile();
         return (Worker) new CustomClassLoader()
-                .findClass("com.example.lec09.task2.SomeClass").newInstance();
+                .findClass(path + className).newInstance();
     }
 
     private void createJavaFile() {
@@ -37,5 +37,9 @@ public class ClassBuilder {
     private void compileJavaFile(){
         JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
         compiler.run(null, null, null, String.format("%s%s.java", path, className));
+    }
+
+    private String getCorrectNameToClassloader(){
+        return code.get(0).substring(8).replace(";", ".").concat(className);
     }
 }
