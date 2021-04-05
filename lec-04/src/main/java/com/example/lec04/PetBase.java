@@ -9,9 +9,25 @@ import java.util.*;
 
 public class PetBase {
 
-    Set<Pet> pets;
+    private static volatile PetBase INSTANCE;
+    private final Set<Pet> pets;
 
-    public PetBase() {
+    public static PetBase getInstance() {
+        PetBase localInstance = INSTANCE;
+        if (localInstance == null) {
+            synchronized (PetBase.class) {
+                localInstance = INSTANCE;
+                if (localInstance == null) {
+                    INSTANCE = localInstance = new PetBase();
+                }
+            }
+        }
+        return localInstance;
+    }
+
+
+
+    private PetBase() {
         this.pets = new TreeSet<>(new PetComparator());
     }
 
@@ -30,5 +46,9 @@ public class PetBase {
     public void updatePet(Pet pet) {
         pets.remove(pets.stream().filter(pet1 -> pet1.getId() == pet.getId()).findFirst().get());
         pets.add(pet);
+    }
+
+    public Set<Pet> getPets() {
+        return pets;
     }
 }

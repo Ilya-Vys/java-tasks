@@ -1,16 +1,19 @@
 package com.example.lec04.entities;
 
-public class Person implements Comparable{
+import java.util.Objects;
+
+public class Person implements Comparable<Person>{
 
     private final String name;
     private final int age;
     private final Sex sex;
 
-    public Person(Sex sex, String name, int age) {
+    public Person(String name, int age, Sex sex) {
         this.name = name;
         this.age = age;
         this.sex = sex;
     }
+
 
     public String getName() {
         return name;
@@ -25,20 +28,35 @@ public class Person implements Comparable{
     }
 
     @Override
+    public int compareTo(Person person) {
+        int nameResult = this.name.compareTo(person.name);
+        if(nameResult != 0){
+            return nameResult;
+        }
+        return Integer.compare(this.getAge(), person.getAge());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Person person = (Person) o;
+        return age == person.age &&
+                Objects.equals(name, person.name) &&
+                sex == person.sex;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age, sex);
+    }
+
+    @Override
     public String toString() {
         return "Person{" +
                 "name='" + name + '\'' +
                 ", age=" + age +
                 ", sex=" + sex +
                 '}';
-    }
-
-    @Override
-    public int compareTo(Object o) {
-        Person person = (Person)o;
-        int nameResult = this.name.compareTo(person.name);
-        if(nameResult != 0)
-            return nameResult;
-        return Integer.compare(this.getAge(), person.getAge());
     }
 }
