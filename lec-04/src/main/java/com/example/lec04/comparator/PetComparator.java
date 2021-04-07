@@ -2,7 +2,9 @@ package com.example.lec04.comparator;
 
 import com.example.lec04.entities.Pet;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 
 public class PetComparator implements Comparator<Pet> {
 
