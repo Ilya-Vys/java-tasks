@@ -1,8 +1,9 @@
 package com.example.lec04.entities;
 
-import java.util.Objects;
 
-public class Pet {
+import com.example.lec04.Observer;
+
+public class Pet implements Observer {
 
     public static int count;
     private int id;
@@ -21,6 +22,14 @@ public class Pet {
         this.ageYears = builder.ageYears;
         this.ageMonths = builder.ageMonths;
         this.ageDays = builder.ageDays;
+    }
+
+    @Override
+    public void handleEvent(Person person, int age) {
+        if (this.getOwner().equals(person)){
+            System.out.println(person + " change age to " + age + " from "+ name);
+            this.getOwner().setAge(age);
+        }
     }
 
     public static class Builder {

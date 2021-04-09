@@ -5,7 +5,7 @@ import java.util.Objects;
 public class Person implements Comparable<Person>{
 
     private final String name;
-    private final int age;
+    private int age;
     private final Sex sex;
 
     public Person(String name, int age, Sex sex) {
@@ -25,6 +25,10 @@ public class Person implements Comparable<Person>{
 
     public Sex getSex() {
         return sex;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
     }
 
     @Override

@@ -14,16 +14,21 @@ public class Test {
         PetBaseFacade facade = new PetBaseFacade();
 
         facade.addPet(new Pet.Builder(new Person("Bob", 20, Sex.MAN), "Bobik").build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 30, Sex.MAN), "Tuzik").ageYears(2).build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 40, Sex.MAN), "Sharik").build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 50, Sex.WOMAN), "Frosya").ageMonths(3).build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 60, Sex.MAN), "Kesha").build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 25, Sex.WOMAN), "Murka").build());
-        facade.addPet(new Pet.Builder(new Person("Bob", 35, Sex.MAN), "Kitty").build());
+        facade.addPet(new Pet.Builder(new Person("John", 30, Sex.MAN), "Tuzik").ageYears(2).build());
+        facade.addPet(new Pet.Builder(new Person("Mary", 40, Sex.MAN), "Sharik").build());
+        facade.addPet(new Pet.Builder(new Person("Rob", 50, Sex.WOMAN), "Frosya").ageMonths(3).build());
+        facade.addPet(new Pet.Builder(new Person("Jacob", 60, Sex.MAN), "Kesha").build());
+        facade.addPet(new Pet.Builder(new Person("Jason", 25, Sex.WOMAN), "Murka").build());
+        facade.addPet(new Pet.Builder(new Person("Bob", 20, Sex.MAN), "Kitty").build());
+        facade.addPet(new Pet.Builder(new Person("Bob", 20, Sex.MAN), "SnowBall").build());
 
         facade.getPets();
 
         facade.updatePet("Kitty", "Kittykat");
+
+        Person person = facade.findByName("Bobik").getOwner();
+        System.out.println(person);
+        facade.updateOwnerAge(person, 21);
 
     }
 

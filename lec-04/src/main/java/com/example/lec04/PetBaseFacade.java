@@ -1,5 +1,6 @@
 package com.example.lec04;
 
+import com.example.lec04.entities.Person;
 import com.example.lec04.entities.Pet;
 import com.example.lec04.exception.PetAlreadyExistException;
 
@@ -20,5 +21,15 @@ public class PetBaseFacade {
         pet.setName(wantedName);
         base.updatePet(pet);
         System.out.println(base.findByName(wantedName));
+    }
+
+    public Pet findByName(String name){
+        return base.findByName(name);
+    }
+
+    public void updateOwnerAge(Person person, int age){
+        Person p = new Person(person.getName(), person.getAge(), person.getSex());
+        base.updateOwner(p, age);
+
     }
 }

@@ -1,13 +1,14 @@
 package com.example.lec04;
 
 import com.example.lec04.comparator.PetComparator;
+import com.example.lec04.entities.Person;
 import com.example.lec04.entities.Pet;
 import com.example.lec04.exception.PetAlreadyExistException;
 
 
 import java.util.*;
 
-public class PetBase {
+public class PetBase implements Observed{
 
     private static volatile PetBase INSTANCE;
     private final Set<Pet> pets;
@@ -48,7 +49,16 @@ public class PetBase {
         pets.add(pet);
     }
 
+    public void updateOwner(Person person, int age){
+        notifyObservers(person, age);
+    }
+
     public Set<Pet> getPets() {
         return pets;
+    }
+
+    @Override
+    public void notifyObservers(Person person, int age) {
+        pets.forEach(pet -> pet.handleEvent(person, age));
     }
 }
