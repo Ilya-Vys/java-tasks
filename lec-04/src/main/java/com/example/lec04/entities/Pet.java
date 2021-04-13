@@ -1,7 +1,7 @@
 package com.example.lec04.entities;
 
 
-import com.example.lec04.Observer;
+import com.example.lec04.petStorage.Observer;
 
 public class Pet implements Observer {
 
@@ -13,6 +13,9 @@ public class Pet implements Observer {
     private int ageMonths;
     private int ageDays;
     private Person owner;
+
+    public Pet() {
+    }
 
     private Pet(Builder builder){
         this.id = builder.id;

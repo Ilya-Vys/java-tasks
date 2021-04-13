@@ -1,4 +1,4 @@
-package com.example.lec04;
+package com.example.lec04.petStorage;
 
 import com.example.lec04.comparator.PetComparator;
 import com.example.lec04.entities.Person;
@@ -6,33 +6,32 @@ import com.example.lec04.entities.Pet;
 import com.example.lec04.exception.PetAlreadyExistException;
 
 
+import java.io.IOException;
 import java.util.*;
 
-public class PetBase implements Observed{
+public class PetBaseInMemory implements Observed {
 
-    private static volatile PetBase INSTANCE;
+    private static volatile PetBaseInMemory INSTANCE;
     private final Set<Pet> pets;
 
-    public static PetBase getInstance() {
-        PetBase localInstance = INSTANCE;
-        if (localInstance == null) {
-            synchronized (PetBase.class) {
-                localInstance = INSTANCE;
-                if (localInstance == null) {
-                    INSTANCE = localInstance = new PetBase();
+    public static PetBaseInMemory getInstance() {
+        if (INSTANCE == null) {
+            synchronized (PetBaseInMemory.class) {
+                if (INSTANCE == null) {
+                    INSTANCE = new PetBaseInMemory();
                 }
             }
         }
-        return localInstance;
+        return INSTANCE;
     }
 
 
 
-    private PetBase() {
+    private PetBaseInMemory() {
         this.pets = new TreeSet<>(new PetComparator());
     }
 
-    public void addPet(Pet pet) throws PetAlreadyExistException {
+    public void addPet(Pet pet) throws PetAlreadyExistException, IOException {
         if (pets.contains(pet)) {
             throw new PetAlreadyExistException();
         }else {
@@ -46,7 +45,6 @@ public class PetBase implements Observed{
 
     public void updatePet(Pet pet) {
         pets.remove(pets.stream().filter(pet1 -> pet1.getId() == pet.getId()).findFirst().get());
-        pets.add(pet);
     }
 
     public void updateOwner(Person person, int age){

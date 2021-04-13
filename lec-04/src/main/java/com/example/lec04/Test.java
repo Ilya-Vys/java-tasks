@@ -4,14 +4,22 @@ import com.example.lec04.entities.Person;
 import com.example.lec04.entities.Pet;
 import com.example.lec04.entities.Sex;
 import com.example.lec04.exception.PetAlreadyExistException;
+import com.example.lec04.petStorage.PetBaseFacade;
+import com.example.lec04.petStorage.PetBaseInFile;
+import com.example.lec04.petStorage.PetBaseInMemory;
+
+import java.io.IOException;
 
 public class Test {
 
 
 
-    public static void main(String[] args) throws PetAlreadyExistException {
+    public static void main(String[] args) throws PetAlreadyExistException, IOException {
+        PetBaseInMemory petBaseInMemory = PetBaseInMemory.getInstance();
+        PetBaseInFile petBaseInFile = new PetBaseInFile("lec-04/src/main/resources/pets");
 
-        PetBaseFacade facade = new PetBaseFacade();
+
+        PetBaseFacade facade = new PetBaseFacade(petBaseInFile);
 
         facade.addPet(new Pet.Builder(new Person("Bob", 20, Sex.MAN), "Bobik").build());
         facade.addPet(new Pet.Builder(new Person("John", 30, Sex.MAN), "Tuzik").ageYears(2).build());
@@ -23,12 +31,15 @@ public class Test {
         facade.addPet(new Pet.Builder(new Person("Bob", 20, Sex.MAN), "SnowBall").build());
 
         facade.getPets();
+        System.out.println("=================================================================");
 
         facade.updatePet("Kitty", "Kittykat");
+        System.out.println("=================================================================");
 
         Person person = facade.findByName("Bobik").getOwner();
         System.out.println(person);
         facade.updateOwnerAge(person, 21);
+        facade.getPets();
 
     }
 

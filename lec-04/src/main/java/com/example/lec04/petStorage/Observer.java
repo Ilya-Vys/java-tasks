@@ -1,4 +1,4 @@
-package com.example.lec04;
+package com.example.lec04.petStorage;
 
 import com.example.lec04.entities.Person;
 

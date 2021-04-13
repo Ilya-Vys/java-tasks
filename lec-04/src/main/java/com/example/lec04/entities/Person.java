@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class Person implements Comparable<Person>{
 
-    private final String name;
+    private String name;
     private int age;
-    private final Sex sex;
+    private Sex sex;
 
     public Person(String name, int age, Sex sex) {
         this.name = name;
@@ -14,6 +14,8 @@ public class Person implements Comparable<Person>{
         this.sex = sex;
     }
 
+    public Person() {
+    }
 
     public String getName() {
         return name;
